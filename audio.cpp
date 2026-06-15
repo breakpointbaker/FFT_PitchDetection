@@ -72,6 +72,8 @@ void AudioObject::quadInterpolPeak(double freq)
     sys.addEquation(a3 * a3, a3, 1, b3, 2);
     sys.solveCramers();
     x = sys.getx();
+    // local maxima is at -b/2a
+    std::cout << (-1 * x[1][0] / (2 * x[2][0])) << "\n";
 }
 
 void AudioObject::printFreqMag(void)
