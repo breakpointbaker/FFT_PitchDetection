@@ -13,7 +13,7 @@ int main()
 
     linearSystem3X3<double> test(A, B);
     test.solveCramers();
-    std::cout << test.getx()[0][0] << " " << test.getx()[1][0] << " " << test.getx()[2][0];
+    std::cout << test.getx()[0][0] << " " << test.getx()[1][0] << " " << test.getx()[2][0] << "\n";
 
     // test creation
     linearSystem3X3<double> test2;
