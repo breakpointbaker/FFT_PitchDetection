@@ -1,1 +1,1 @@
-miniaudio.c miniaudio.h out
+miniaudio.c miniaudio.h out *.out

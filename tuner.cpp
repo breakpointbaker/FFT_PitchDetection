@@ -40,7 +40,7 @@ void fft_thread(AudioObject *audioPtr)
     for (;;)
     {
         qAudioData.wait(lAudioData);
-        audioPtr->windowHannIn();
+        // audioPtr->windowHannIn(); //cannot do this with the shift as it wil window ontop of windw etc
         audioPtr->generateOut();
         audioPtr->computeFreqMag(); // TODO need to sßmehow be able to access bin size, probelery make it part of audio obeject
         audioPtr->printFreqMag();
