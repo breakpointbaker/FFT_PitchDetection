@@ -89,6 +89,7 @@ int main(void)
     getchar();
 
     EndThreads = true;
+    qAudioData.notify_one(); // Let fft thread pass
     ma_device_uninit(&device);
     tFFT.join();
 
