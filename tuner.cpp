@@ -36,6 +36,7 @@ void fft_thread(AudioObject *audioPtr)
 {
     std::unique_lock<std::mutex> lAudioData{mAudioData};
     int binSize{audioPtr->m_sRate / audioPtr->m_N};
+    AudioObject::ArrayTopFreq topFreq{0};
     std::cout << "bin size -> " << binSize << "\n";
     for (;;)
     {
@@ -43,7 +44,10 @@ void fft_thread(AudioObject *audioPtr)
         // audioPtr->windowHannIn(); //cannot do this with the shift as it wil window ontop of windw etc
         audioPtr->generateOut();
         audioPtr->computeFreqMag(); // TODO need to sßmehow be able to access bin size, probelery make it part of audio obeject
-        audioPtr->printFreqMag();
+        audioPtr->sortTopFreq();
+        audioPtr->printTopFreq();
+        topFreq = audioPtr->getTopFreq();
+        audioPtr->quadInterpolPeak(topFreq[0].freq);
         audioPtr->shiftIn(audioPtr->m_fSize);
 
         if (EndThreads)

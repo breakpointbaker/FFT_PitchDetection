@@ -76,14 +76,27 @@ void AudioObject::quadInterpolPeak(double freq)
     std::cout << (-1 * x[1][0] / (2 * x[0][0])) << "\n";
 }
 
-void AudioObject::printFreqMag(void)
+void AudioObject::sortTopFreq(void)
 {
     std::sort(m_freq.begin(), m_freq.end());
-
-    for (int i = 0; i < 5; i++)
+    for (int i{0}; i < m_tFreq.size(); i++)
     {
-        std::cout << m_freq[i].freq << " ";
+        m_tFreq[i] = m_freq[i];
     }
+}
+
+const AudioObject::ArrayTopFreq &AudioObject::getTopFreq(void)
+{
+    return m_tFreq;
+}
+
+void AudioObject::printTopFreq(void)
+{
+    for (const auto &freq_d : m_tFreq)
+    {
+        std::cout << freq_d.freq << " ";
+    }
+
     std::cout << "\n";
 }
 

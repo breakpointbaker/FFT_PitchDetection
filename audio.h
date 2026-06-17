@@ -20,11 +20,9 @@ public:
         {
             return mag > a.mag;
         }
-        bool operator==(const freq_data &a) const
-        {
-            return freq == a.freq;
-        }
     };
+
+    using ArrayTopFreq = std::array<freq_data, 3>;
 
     const double PI{3.1416};
     const int m_N;
@@ -35,6 +33,7 @@ private:
     std::vector<double> m_in;
     std::vector<std::complex<double>> m_out;
     std::vector<freq_data> m_freq;
+    ArrayTopFreq m_tFreq{0};
     std::vector<double> m_hann;
     fftw_plan m_p;
 
@@ -60,7 +59,9 @@ public:
     void computeFreqMag(void);
     double findFreqMag(int f_freq);
     void quadInterpolPeak(double freq);
-    void printFreqMag(void);
+    void sortTopFreq(void);
+    const ArrayTopFreq &getTopFreq(void);
+    void printTopFreq(void);
     void printIn(void);
 };
 
