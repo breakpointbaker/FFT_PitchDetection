@@ -33,7 +33,7 @@ void AudioObject::generateOut(void)
 
 void AudioObject::computeFreqMag(void)
 {
-    int binSize = m_sRate / m_N;
+    double binSize = m_sRate / m_N;
     // No useful information in bin N/2 and higher as is nyquit frequncy
     for (int i = 0; i <= m_N / 2; i++)
     {

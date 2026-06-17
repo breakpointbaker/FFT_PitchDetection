@@ -5,4 +5,4 @@ Attempt to use FFT to identify the most prominent frequencies in an audio signal
 - Requires miniaudio.c and miniaudio.h
 # Build:
 g++ tuner.cpp miniaudio.c audio.cpp linearSystem.cpp -pthread -lfftw3 -o out
-
+g++ testAudio.cpp audio.cpp linearSystem.cpp -lfftw3 -o out
