@@ -14,7 +14,7 @@ public:
     struct freq_data
     {
         double mag;
-        int freq;
+        double freq;
 
         bool operator<(const freq_data &a) const
         {
@@ -63,6 +63,7 @@ public:
     const ArrayTopFreq &getTopFreq(void);
     void printTopFreq(void);
     void printIn(void);
+    void printOut(void);
 };
 
 #endif

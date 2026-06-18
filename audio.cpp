@@ -108,3 +108,12 @@ void AudioObject::printIn(void)
     }
     std::cout << "\n";
 }
+
+void AudioObject::printOut(void)
+{
+    for (const auto &i : m_out)
+    {
+        std::cout << i << " ";
+    }
+    std::cout << "\n";
+}

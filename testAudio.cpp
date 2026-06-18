@@ -23,7 +23,7 @@ void testShift(void)
     int fSize{2};
     int sampleRate{1024};
     AudioObject testAudio(N, fSize, sampleRate);
-    std::array<float, 10> data{0, 1, 0, -1, 0, 1, 0, -1, 0, 1};
+    std::array<float, 10> data{1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
     testAudio.updateIn(data.data(), fSize);
     testAudio.printIn();
     for (int i{1}; i < 5; i++)
@@ -41,15 +41,20 @@ void testShift(void)
 
 void testFull(void)
 {
+    float mag1 = 1;
+    float freq1 = 1001.6;
+    float mag2 = 0.8;
+    float freq2 = 82.4;
+
     int sampleRate{4096};
     int sampleLength{200}; // ms
-    int N = sampleRate * 1000 / sampleLength;
+    int N = sampleRate * sampleLength / 1000;
     AudioObject testAudio(N, N, sampleRate);
     AudioObject::ArrayTopFreq topFreq{0};
 
-    std::vector<float> testData = createAddedSineWaves(1, 100, 0, 1, sampleRate, N);
+    std::vector<float> testData = createAddedSineWaves(mag1, freq1, mag2, freq2, sampleRate, N);
     testAudio.updateIn(testData.data(), N);
-    testAudio.printIn();
+    testAudio.windowHannIn();
     testAudio.generateOut();
     testAudio.computeFreqMag();
     testAudio.sortTopFreq();
@@ -57,6 +62,7 @@ void testFull(void)
     topFreq = testAudio.getTopFreq();
     testAudio.quadInterpolPeak(topFreq[0].freq);
     testAudio.quadInterpolPeak(topFreq[1].freq);
+    testAudio.quadInterpolPeak(topFreq[2].freq);
 }
 
 int main()
