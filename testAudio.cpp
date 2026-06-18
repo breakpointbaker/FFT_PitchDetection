@@ -41,13 +41,13 @@ void testShift(void)
 
 void testFull(void)
 {
-    float mag1 = 1;
-    float freq1 = 1001.6;
+    float mag1 = 0.9;
+    float freq1 = 440.6;
     float mag2 = 0.8;
     float freq2 = 82.4;
 
-    int sampleRate{4096};
-    int sampleLength{200}; // ms
+    int sampleRate{1024};
+    int sampleLength{1000}; // ms
     int N = sampleRate * sampleLength / 1000;
     AudioObject testAudio(N, N, sampleRate);
     AudioObject::ArrayTopFreq topFreq{0};

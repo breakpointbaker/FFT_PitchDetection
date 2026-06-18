@@ -68,7 +68,7 @@ T linearSystem3X3<T>::det3X3(void)
 template <typename T>
 void linearSystem3X3<T>::solveCramers(void)
 {
-    int D = det3X3(m_A);
+    double D = det3X3(m_A);
     if (D == 0)
         return; // not unique
     m_x[0][0] = det3X3(replaceCol(m_A, m_B, 0)) / D;
