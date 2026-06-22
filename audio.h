@@ -28,6 +28,7 @@ public:
     const int m_N;
     const int m_fSize;
     const int m_sRate;
+    const double m_binSize;
 
 private:
     std::vector<double> m_in;
@@ -39,7 +40,7 @@ private:
 
 public:
     AudioObject(int N, int fSize, int sRate)
-        : m_in(N), m_out(N / 2 + 1), m_freq(N / 2 + 1), m_hann(N), m_N{N}, m_fSize{fSize}, m_sRate{sRate}
+        : m_in(N), m_out(N / 2 + 1), m_freq(N / 2 + 1), m_hann(N), m_N{N}, m_fSize{fSize}, m_sRate{sRate}, m_binSize{static_cast<double>(sRate) / N}
     {
         for (int i = 0; i < m_N; i++)
         {

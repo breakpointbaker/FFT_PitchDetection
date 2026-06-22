@@ -33,12 +33,11 @@ void AudioObject::generateOut(void)
 
 void AudioObject::computeFreqMag(void)
 {
-    double binSize = static_cast<double>(m_sRate) / m_N;
     // No useful information in bin N/2 and higher as is nyquit frequncy
     for (int i = 0; i <= m_N / 2; i++)
     {
         m_freq[i].mag = std::abs(m_out[i]);
-        m_freq[i].freq = i * binSize;
+        m_freq[i].freq = i * m_binSize;
     }
 }
 
@@ -58,10 +57,9 @@ void AudioObject::quadInterpolPeak(double freq)
 {
     linearSystem3X3<double>::Array2D<double, 3, 1> x;
     linearSystem3X3<double> sys;
-    const double binSize = static_cast<double>(m_sRate) / m_N;
     const double a1{freq};
-    const double a2{freq - binSize};
-    const double a3{freq + binSize};
+    const double a2{freq - m_binSize};
+    const double a3{freq + m_binSize};
     const double b1 = findFreqMag(a1);
     const double b2 = findFreqMag(a2);
     const double b3 = findFreqMag(a3);
