@@ -6,7 +6,7 @@ void AudioObject::updateIn(const float *in, int sizeIn)
 
     // difference between sizeIn and N, offest = m_N - sizeIn -> m_in[i+offset] -> put newest data at m_in[m_N]
     int offset{m_N - sizeIn};
-    for (int i{0}; i < m_N; i++)
+    for (int i{0}; i < sizeIn; i++)
     {
         m_in[i + offset] = static_cast<double>(in[i]);
     }
@@ -23,6 +23,14 @@ void AudioObject::windowHannIn(void)
     for (int i = 0; i < m_N; i++)
     {
         m_in[i] = m_in[i] * m_hann[i];
+    }
+}
+
+void AudioObject::removeWindowHannIn(void)
+{
+    for (int i = 0; i < m_N; i++)
+    {
+        m_in[i] = m_in[i] * m_hannInv[i];
     }
 }
 

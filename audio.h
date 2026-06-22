@@ -36,15 +36,17 @@ private:
     std::vector<freq_data> m_freq;
     ArrayTopFreq m_tFreq{0};
     std::vector<double> m_hann;
+    std::vector<double> m_hannInv;
     fftw_plan m_p;
 
 public:
     AudioObject(int N, int fSize, int sRate)
-        : m_in(N), m_out(N / 2 + 1), m_freq(N / 2 + 1), m_hann(N), m_N{N}, m_fSize{fSize}, m_sRate{sRate}, m_binSize{static_cast<double>(sRate) / N}
+        : m_in(N), m_out(N / 2 + 1), m_freq(N / 2 + 1), m_hann(N), m_hannInv(N), m_N{N}, m_fSize{fSize}, m_sRate{sRate}, m_binSize{static_cast<double>(sRate) / N}
     {
         for (int i = 0; i < m_N; i++)
         {
             m_hann[i] = 0.5 * (1 - std::cos(2 * PI * i / (m_N - 1)));
+            m_hannInv[i] = 2 / (1 - std::cos(2 * PI * i / (m_N - 1)));
         }
         m_p = fftw_plan_dft_r2c_1d(m_N, m_in.data(), reinterpret_cast<fftw_complex *>(m_out.data()), FFTW_ESTIMATE);
     }
@@ -56,6 +58,7 @@ public:
     void updateIn(const float *in, int sizeIn);
     void shiftIn(int sizeShift);
     void windowHannIn(void);
+    void removeWindowHannIn(void);
     void generateOut(void);
     void computeFreqMag(void);
     double findFreqMag(int f_freq);

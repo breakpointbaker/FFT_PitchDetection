@@ -49,20 +49,42 @@ void testFull(void)
     int sampleRate{1024};
     int sampleLength{1000}; // ms
     int N = sampleRate * sampleLength / 1000;
-    AudioObject testAudio(N, N, sampleRate);
+
+    // Test 1 - with shift and windowing and removing wnindow
+    int framesize = N / 4;
+    AudioObject testAudio(N, framesize, sampleRate);
     AudioObject::ArrayTopFreq topFreq{0};
 
     std::vector<float> testData = createAddedSineWaves(mag1, freq1, mag2, freq2, sampleRate, N);
-    testAudio.updateIn(testData.data(), N);
-    testAudio.windowHannIn();
-    testAudio.generateOut();
-    testAudio.computeFreqMag();
+
+    for (int i{0}; i < (N / framesize); i++)
+    {
+        testAudio.updateIn(&testData[i * framesize], framesize);
+        testAudio.windowHannIn();
+        testAudio.generateOut();
+        testAudio.computeFreqMag();
+        testAudio.removeWindowHannIn();
+        testAudio.shiftIn(framesize);
+    }
     testAudio.sortTopFreq();
-    testAudio.printTopFreq();
     topFreq = testAudio.getTopFreq();
+    std::cout << "With shift and winowing and removing windowing" << "\n";
     testAudio.quadInterpolPeak(topFreq[0].freq);
     testAudio.quadInterpolPeak(topFreq[1].freq);
     testAudio.quadInterpolPeak(topFreq[2].freq);
+
+    // Test 2 - no shifting or removing window, should be the same as before
+    AudioObject testAudio2(N, N, sampleRate);
+    testAudio2.updateIn(testData.data(), N);
+    testAudio2.windowHannIn();
+    testAudio2.generateOut();
+    testAudio2.computeFreqMag();
+    testAudio2.sortTopFreq();
+    topFreq = testAudio2.getTopFreq();
+    std::cout << "Without shift or removing windowing - should be the same as above" << "\n";
+    testAudio2.quadInterpolPeak(topFreq[0].freq);
+    testAudio2.quadInterpolPeak(topFreq[1].freq);
+    testAudio2.quadInterpolPeak(topFreq[2].freq);
 }
 
 int main()
