@@ -41,13 +41,13 @@ void fft_thread(AudioObject *audioPtr)
     for (;;)
     {
         qAudioData.wait(lAudioData);
-        // audioPtr->windowHannIn(); //cannot do this with the shift as it wil window ontop of windw etc
+        audioPtr->windowHannIn(); // cannot do this with the shift as it wil window ontop of windw etc
         audioPtr->generateOut();
         audioPtr->computeFreqMag(); // TODO need to sßmehow be able to access bin size, probelery make it part of audio obeject
         audioPtr->sortTopFreq();
-        audioPtr->printTopFreq();
         topFreq = audioPtr->getTopFreq();
         audioPtr->quadInterpolPeak(topFreq[0].freq);
+        audioPtr->removeWindowHannIn();
         audioPtr->shiftIn(audioPtr->m_fSize);
 
         if (EndThreads)
