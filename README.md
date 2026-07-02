@@ -8,5 +8,6 @@ Attempt to use FFT to identify the most prominent frequencies in an audio signal
 - Try different windowing functions
 - Add filtering to boost frequencies in desired range, 80Hz - 400Hz
 # Build:
+Install FFTW library, go to FFTW website to download \
 g++ tuner.cpp miniaudio.c audio.cpp linearSystem.cpp -pthread -lfftw3 -o out \
 g++ testAudio.cpp audio.cpp linearSystem.cpp -lfftw3 -o out
